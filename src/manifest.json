@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome extension boilerplate",
+  "description": "",
+  "version": "0.0.1",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "background": { "service_worker": "js/service_worker.bundle.js" },
+  "content_scripts": [
+    {
+      "js": ["js/main_content_script.bundle.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": ["scripting"],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
