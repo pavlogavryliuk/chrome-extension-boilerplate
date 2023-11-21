@@ -1,4 +1,5 @@
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require("path");
 
 module.exports = {
@@ -9,15 +10,14 @@ module.exports = {
         extensions: ['.js', '.jsx'],
     },
     entry: {
-        main_content_script: './src/modules/content_scripts/main/index.js',
-        service_worker: './src/modules/service_worker/index.js',
+        "content-script": './src/modules/content-script/index.js',
+        "service-worker": './src/modules/service-worker/index.js',
         popup: './src/modules/popup/index.js',
         options: './src/modules/options/index.js',
     },
     output: {
         filename: 'js/[name].bundle.js',
         path: path.resolve(__dirname, 'dist/chrome'),
-
         publicPath: '',
     },
     plugins: [
@@ -26,17 +26,25 @@ module.exports = {
                 {
                     from: 'src/manifest.json',
                     to: 'manifest.json',
-                },
-                {
-                    from: 'src/modules/popup/index.html',
-                    to: 'popup.html',
-                },
-                {
-                    from: 'src/modules/options/index.html',
-                    to: 'options.html',
-                },
+                }
             ],
         }),
+        new HtmlWebpackPlugin({
+            filename: 'options.html',
+            inject: false,
+            templateParameters: {
+                name: 'Options',
+                module: 'options'
+            }
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'popup.html',
+            inject: false,
+            templateParameters: {
+                name: 'Popup',
+                module: 'popup'
+            }
+        })
     ],
     module: {
         rules: [
